@@ -318,32 +318,45 @@ class PumpFunSniper:
             return None
     
     async def _execute_buy(self, token_mint: str, amount: float) -> bool:
-        """执行购买交易"""
+        """执行购买交易
+        
+        WARNING: This is a framework implementation. Actual pump.fun transaction
+        building requires reverse engineering of the pump.fun contract to determine
+        the exact instruction format, accounts, and parameters.
+        
+        To complete this implementation, you need to:
+        1. Analyze pump.fun contract interactions
+        2. Determine the buy instruction format
+        3. Calculate bonding curve pricing
+        4. Build proper transaction with all required accounts
+        """
         try:
             logger.info(f"{Fore.YELLOW}构建购买交易...")
+            logger.warning(f"{Fore.RED}⚠️  交易功能未完整实现 - 需要pump.fun合约逆向工程")
             
-            # 注意: 这里需要实际的pump.fun交易构建逻辑
-            # 由于pump.fun的具体交易格式需要逆向工程，这里提供框架
-            
-            # 1. 获取最新的blockhash
+            # Framework for actual implementation:
+            # 1. Get latest blockhash
             recent_blockhash_resp = await self.client.get_latest_blockhash()
             recent_blockhash = recent_blockhash_resp.value.blockhash
             
-            # 2. 构建交易指令
-            # 这里需要pump.fun的具体指令格式
-            logger.warning(f"{Fore.YELLOW}注意: 需要实现具体的pump.fun买入指令")
+            # 2. Build pump.fun buy instruction (NEEDS IMPLEMENTATION)
+            # - Determine instruction discriminator
+            # - Add required accounts (bonding curve, associated token, etc.)
+            # - Calculate amount and slippage parameters
             
-            # 3. 创建交易
+            # 3. Create and sign transaction
             # transaction = Transaction()
-            # ... 添加指令
-            
-            # 4. 签名并发送
+            # transaction.add(buy_instruction)
             # transaction.sign(self.wallet)
-            # result = await self.client.send_transaction(transaction)
             
-            # 临时返回False，因为还没有实现完整的交易逻辑
-            logger.info(f"{Fore.YELLOW}交易构建完成（演示模式）")
-            return True
+            # 4. Send transaction
+            # result = await self.client.send_transaction(
+            #     transaction,
+            #     opts=TxOpts(skip_preflight=False, preflight_commitment=Confirmed)
+            # )
+            
+            logger.info(f"{Fore.YELLOW}演示模式 - 未执行实际交易")
+            return False  # Changed to False to indicate no actual trade
             
         except Exception as e:
             logger.error(f"{Fore.RED}执行购买失败: {e}")
@@ -389,22 +402,48 @@ class PumpFunSniper:
                 await asyncio.sleep(10)
     
     async def _get_token_value(self, token_mint: str) -> Optional[float]:
-        """获取代币当前价值"""
+        """获取代币当前价值
+        
+        WARNING: Not implemented. Requires pump.fun API or on-chain price calculation.
+        
+        Implementation options:
+        1. Query pump.fun bonding curve state
+        2. Use Jupiter/Raydium aggregator API
+        3. Calculate from reserve balances
+        """
         try:
-            # 这里需要实现获取代币价值的逻辑
-            # 可以通过pump.fun API或DEX获取
+            # TODO: Implement token value retrieval
+            # Option 1: pump.fun API
+            # response = requests.get(f"{self.pumpfun_api}/coins/{token_mint}")
+            # return response.json().get('price')
+            
+            # Option 2: On-chain bonding curve calculation
+            # - Fetch bonding curve account
+            # - Calculate current price from reserves
+            
+            logger.warning(f"{Fore.YELLOW}代币价格获取未实现")
             return None
         except Exception as e:
             logger.error(f"{Fore.RED}获取代币价值失败: {e}")
             return None
     
     async def _execute_sell(self, token_mint: str) -> bool:
-        """执行卖出交易"""
+        """执行卖出交易
+        
+        WARNING: Not implemented. Requires pump.fun sell instruction format.
+        
+        Implementation steps:
+        1. Get token account balance
+        2. Build sell instruction with proper accounts
+        3. Calculate expected SOL output from bonding curve
+        4. Sign and send transaction
+        """
         try:
             logger.info(f"{Fore.YELLOW}构建卖出交易...")
+            logger.warning(f"{Fore.RED}⚠️  卖出功能未实现")
             
-            # 这里需要实现pump.fun的卖出逻辑
-            logger.warning(f"{Fore.YELLOW}注意: 需要实现具体的pump.fun卖出指令")
+            # TODO: Implement pump.fun sell logic
+            # Similar to buy but with sell instruction
             
             return False
             
