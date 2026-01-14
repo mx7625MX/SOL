@@ -430,6 +430,14 @@ class PumpProfitBot:
         """获取代币当前价格
         
         WARNING: 需要实现从pump.fun bonding curve获取实时价格
+        
+        完整实现需要:
+        1. 查询pump.fun bonding curve账户 (PDA)
+        2. 解析账户数据获取储备金余额 (SOL和Token)
+        3. 使用公式计算价格: price = sol_reserves / token_reserves
+        4. 或使用pump.fun API: GET /coins/{mint}
+        
+        参考: https://github.com/pump-fun/pump-fun-core (如果公开)
         """
         try:
             # TODO: 实现从pump.fun bonding curve获取价格
@@ -482,6 +490,20 @@ class PumpProfitBot:
         """执行卖出交易
         
         优先速度，确保在2000ms内完成
+        
+        WARNING: 卖出功能需要pump.fun合约逆向工程
+        
+        完整实现步骤:
+        1. 分析pump.fun卖出交易示例
+        2. 确定指令discriminator和参数格式
+        3. 构建所需账户列表 (bonding curve, token account, etc.)
+        4. 实现滑点计算
+        5. 签名并发送交易
+        
+        参考资料:
+        - Solana Explorer查看pump.fun卖出交易
+        - 使用solana-tx-inspector解析交易结构
+        - 社区逆向工程文档 (如有)
         """
         start_time = time.time()
         
@@ -505,6 +527,7 @@ class PumpProfitBot:
             # 构建并发送卖出交易
             # WARNING: 需要实现pump.fun卖出指令
             logger.warning(f"{Fore.RED}⚠️  卖出功能需要pump.fun合约逆向工程")
+            logger.warning(f"{Fore.YELLOW}提示: 查看IMPLEMENTATION_SUMMARY_PROFIT_BOT.md了解如何完成实现")
             
             # TODO: 实现快速卖出逻辑
             # 1. 获取最新blockhash (缓存以提高速度)
