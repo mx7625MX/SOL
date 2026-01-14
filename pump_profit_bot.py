@@ -452,15 +452,26 @@ class PumpProfitBot:
             return None
     
     async def _check_whale_activity(self, token_mint: str, position: Dict[str, Any]):
-        """检查是否有鲸鱼买入活动"""
+        """检查是否有鲸鱼买入活动
+        
+        通过监控pump.fun程序日志来检测该代币的大额买入
+        """
         try:
-            # 订阅代币的交易日志，检测大额买入
-            # 这里需要监控pump.fun上该代币的所有交易
+            # 这个功能需要为每个代币创建单独的WebSocket订阅
+            # 监听包含该代币mint的pump.fun交易
             
-            # TODO: 实现鲸鱼买入检测
-            # 1. 监听代币的交易日志
-            # 2. 解析买入金额
-            # 3. 如果买入金额 >= whale_buy_threshold，触发卖出
+            # 实现思路：
+            # 1. 为每个监控的代币创建WebSocket订阅
+            # 2. 使用logsSubscribe订阅pump.fun程序
+            # 3. 过滤出包含目标token mint的交易
+            # 4. 解析交易日志，提取买入金额
+            # 5. 如果买入金额 >= whale_buy_threshold且不是自己的钱包，触发卖出
+            
+            # TODO: 完整实现需要：
+            # - 为每个代币维护单独的WebSocket连接
+            # - 解析pump.fun的买入日志格式
+            # - 从日志中提取买入金额
+            # - 识别买入者地址，排除自己的交易
             
             pass
             
