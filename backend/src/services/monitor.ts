@@ -275,7 +275,7 @@ export class MonitorService extends EventEmitter {
           // 估算使用的 SOL 数量
           const preLamports = tx.meta?.preBalances?.[0] || 0;
           const postLamports = tx.meta?.postBalances?.[0] || 0;
-          const solAmount = (preLamports - postLamports) / 1e9;
+          const solAmount = (preLamports - postLamports) / LAMPORTS_PER_SOL;
 
           if (solAmount > 0 && amount > 0) {
             return {

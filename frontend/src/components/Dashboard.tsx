@@ -217,7 +217,7 @@ const Dashboard: React.FC = () => {
                   <div style={{ marginBottom: 16 }}>
                     <div style={{ color: '#888', marginBottom: 4 }}>最大盈利</div>
                     <div style={{ fontSize: '20px', color: '#3f8600', fontWeight: 'bold' }}>
-                      +{positions.length > 0 ? Math.max(...positions.map(p => p.profitPercent)).toFixed(2) : '0.00'}%
+                      +{positions.length > 0 ? positions.reduce((max, p) => Math.max(max, p.profitPercent), 0).toFixed(2) : '0.00'}%
                     </div>
                   </div>
                 </Col>
@@ -225,7 +225,7 @@ const Dashboard: React.FC = () => {
                   <div style={{ marginBottom: 16 }}>
                     <div style={{ color: '#888', marginBottom: 4 }}>最大亏损</div>
                     <div style={{ fontSize: '20px', color: '#cf1322', fontWeight: 'bold' }}>
-                      {positions.length > 0 ? Math.min(...positions.map(p => p.profitPercent)).toFixed(2) : '0.00'}%
+                      {positions.length > 0 ? positions.reduce((min, p) => Math.min(min, p.profitPercent), 0).toFixed(2) : '0.00'}%
                     </div>
                   </div>
                 </Col>

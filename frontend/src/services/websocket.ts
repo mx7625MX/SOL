@@ -8,7 +8,7 @@ class WebSocketService {
   private ws: WebSocket | null = null;
   private url: string;
   private reconnectTimeout: number = 5000;
-  private reconnectTimer: NodeJS.Timeout | null = null;
+  private reconnectTimer: number | null = null;  // Changed to number for browser compatibility
   private listeners: Map<string, Set<(data: any) => void>> = new Map();
 
   constructor(url: string = `ws://${window.location.hostname}:3001/ws`) {
@@ -105,7 +105,7 @@ class WebSocketService {
       return;
     }
 
-    this.reconnectTimer = setTimeout(() => {
+    this.reconnectTimer = window.setTimeout(() => {
       console.log('尝试重新连接...');
       this.reconnectTimer = null;
       this.connect();

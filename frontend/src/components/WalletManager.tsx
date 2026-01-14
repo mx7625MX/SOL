@@ -211,7 +211,7 @@ const WalletManager: React.FC = () => {
           >
             <TextArea
               rows={4}
-              placeholder="输入助记词或私钥&#10;&#10;助记词示例：word1 word2 word3 ...&#10;私钥示例：5J2... (Base58格式)"
+              placeholder="输入助记词或私钥&#10;&#10;助记词示例：abandon abandon abandon ... (12或24个单词)&#10;私钥示例：3J2b... (Base58格式，请勿输入真实私钥作为示例)"
             />
           </Form.Item>
 

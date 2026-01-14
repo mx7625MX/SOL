@@ -10,8 +10,19 @@ import crypto from 'crypto';
 import { derivePath } from 'ed25519-hd-key';
 import logger from '../utils/logger';
 
-// 简单的加密密钥（实际应用中应该使用环境变量或密钥管理系统）
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'default-encryption-key-change-this-in-production';
+// 加密密钥（必须通过环境变量设置）
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
+
+// 安全检查：生产环境必须设置加密密钥
+if (!ENCRYPTION_KEY) {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('ENCRYPTION_KEY 环境变量未设置！生产环境必须设置此变量以确保私钥安全。');
+  } else {
+    logger.warn('警告：ENCRYPTION_KEY 未设置，使用默认密钥。生产环境请务必设置！');
+  }
+}
+
+const ACTUAL_ENCRYPTION_KEY = ENCRYPTION_KEY || 'development-key-DO-NOT-USE-IN-PRODUCTION';
 
 export class WalletService {
   /**
@@ -119,7 +130,7 @@ export class WalletService {
       const secretKey = Buffer.from(keypair.secretKey);
       const cipher = crypto.createCipheriv(
         'aes-256-cbc',
-        crypto.scryptSync(ENCRYPTION_KEY, 'salt', 32),
+        crypto.scryptSync(ACTUAL_ENCRYPTION_KEY, 'salt', 32),
         Buffer.alloc(16, 0)
       );
       
@@ -141,7 +152,7 @@ export class WalletService {
       const encrypted = Buffer.from(encryptedKey, 'hex');
       const decipher = crypto.createDecipheriv(
         'aes-256-cbc',
-        crypto.scryptSync(ENCRYPTION_KEY, 'salt', 32),
+        crypto.scryptSync(ACTUAL_ENCRYPTION_KEY, 'salt', 32),
         Buffer.alloc(16, 0)
       );
       

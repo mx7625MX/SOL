@@ -11,6 +11,13 @@ import dayjs from 'dayjs';
 
 const { Option } = Select;
 
+// 交易状态常量
+const TRANSACTION_STATUS = {
+  PENDING: 'pending',
+  CONFIRMED: 'confirmed',
+  FAILED: 'failed',
+} as const;
+
 const TransactionHistory: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [wallets, setWallets] = useState<Wallet[]>([]);
@@ -105,11 +112,11 @@ const TransactionHistory: React.FC = () => {
       key: 'status',
       render: (status: string) => {
         const statusMap: Record<string, { color: string; text: string }> = {
-          pending: { color: 'processing', text: '处理中' },
-          confirmed: { color: 'success', text: '已确认' },
-          failed: { color: 'error', text: '失败' },
+          [TRANSACTION_STATUS.PENDING]: { color: 'processing', text: '处理中' },
+          [TRANSACTION_STATUS.CONFIRMED]: { color: 'success', text: '已确认' },
+          [TRANSACTION_STATUS.FAILED]: { color: 'error', text: '失败' },
         };
-        const info = statusMap[status] || statusMap.pending;
+        const info = statusMap[status] || statusMap[TRANSACTION_STATUS.PENDING];
         return <Tag color={info.color}>{info.text}</Tag>;
       },
     },
@@ -118,7 +125,7 @@ const TransactionHistory: React.FC = () => {
       dataIndex: 'signature',
       key: 'signature',
       render: (sig: string) => (
-        sig !== 'failed' ? (
+        sig !== TRANSACTION_STATUS.FAILED ? (
           <Button
             type="link"
             size="small"
